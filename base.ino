@@ -147,12 +147,12 @@ void loop() {
   }
 
   // --- INMP441 Mic RMS ---
-  float soundRMS = readSoundRMS();
-  float dB = 20.0 * log10(soundRMS);
+  float rms = readSoundRMS();
+  float dB = 20.0 * log10(rms);
 
   // --- Serial Output ---
   Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, T(LM35)=%.1f°C, I=%.2fA, Acc=[%.2f,%.2f,%.2f], Sound=%.3f\n",
-                tempDHT, hum, tempLM35, currentA, ax, ay, az, soundRMS);
+                tempDHT, hum, tempLM35, currentA, ax, ay, az, rms);
 
   // --- OLED Display Update ---
   oled.clear();
@@ -180,7 +180,7 @@ void loop() {
 
   oled.setCursor(0, 5);
   oled.print("Sound:");
-  oled.print(soundRMS, 3);
+  oled.print(rms, 3);
 
   oled.update();
   delay(1000);
