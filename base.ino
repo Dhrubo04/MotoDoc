@@ -1,6 +1,6 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_ADS1X15.h>
+// #include <Adafruit_ADS1X15.h>
 #include <MPU9250_asukiaaa.h>
 #include <DHT.h>
 #include <GyverOLED.h>
@@ -13,8 +13,8 @@
 #define DHTPIN 15
 #define DHTTYPE DHT22
 
-#define ADS_LM35_CH 0
-#define ADS_ACS_CH  1
+// #define ADS_LM35_CH 0
+// #define ADS_ACS_CH  1
 
 #define I2S_WS   25
 #define I2S_SD   33
@@ -24,18 +24,18 @@
 // ============================================
 
 // --- Sensors and OLED ---
-Adafruit_ADS1115 ads;
+// Adafruit_ADS1115 ads;
 MPU9250_asukiaaa mpu;
 DHT dht(DHTPIN, DHTTYPE);
 GyverOLED<SSH1106_128x64, OLED_BUFFER> oled;
 
 // --- Flags ---
-bool adsOK = false, mpuOK = false;
+// bool adsOK = false, mpuOK = false;
 
 // --- Helper Functions ---
-float adsToVoltage(int16_t raw) {
-  return (raw * 0.1875f) / 1000.0f; // ADS1115 default gain
-}
+// float adsToVoltage(int16_t raw) {
+//   return (raw * 0.1875f) / 1000.0f; // ADS1115 default gain
+// }
 
 static const i2s_config_t i2s_config = {
   .mode = i2s_mode_t(I2S_MODE_MASTER | I2S_MODE_RX),
@@ -97,9 +97,9 @@ void setup() {
   // --- DHT22 ---
   dht.begin();
 
-  // --- ADS1115 ---
-  adsOK = ads.begin();
-  if (!adsOK) Serial.println("⚠️ ADS1115 not detected!");
+  // // --- ADS1115 ---
+  // adsOK = ads.begin();
+  // if (!adsOK) Serial.println("⚠️ ADS1115 not detected!");
 
   // --- MPU9250 ---
   // mpuOK = mpu.setup(0x68);
@@ -129,17 +129,18 @@ void loop() {
   // --- DHT22 ---
   float tempDHT = dht.readTemperature();
   float hum = dht.readHumidity();
+  float currentA = 4.2;
 
   // --- ADS1115 (LM35 + ACS712) ---
-  float tempLM35 = NAN, currentA = NAN;
-  if (adsOK) {
-    int16_t rawLM = ads.readADC_SingleEnded(ADS_LM35_CH);
-    int16_t rawAC = ads.readADC_SingleEnded(ADS_ACS_CH);
-    float vLM = adsToVoltage(rawLM);
-    float vAC = adsToVoltage(rawAC);
-    tempLM35 = vLM * 100.0f;
-    currentA = (vAC - 2.5f) / 0.185f;  // ACS712-5A formula
-  }
+  // float tempLM35 = NAN, currentA = NAN;
+  // if (adsOK) {
+  //   int16_t rawLM = ads.readADC_SingleEnded(ADS_LM35_CH);
+  //   int16_t rawAC = ads.readADC_SingleEnded(ADS_ACS_CH);
+  //   float vLM = adsToVoltage(rawLM);
+  //   float vAC = adsToVoltage(rawAC);
+  //   tempLM35 = vLM * 100.0f;
+  //   currentA = (vAC - 2.5f) / 0.185f;  // ACS712-5A formula
+  // }
 
   // --- MPU9250 ---
  mpu.accelUpdate();
