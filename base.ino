@@ -17,9 +17,10 @@
 #define ADS_ACS_CH  1
 
 #define I2S_WS   25
-#define I2S_SD   22
+#define I2S_SD   33
 #define I2S_SCK  26
 #define I2S_PORT I2S_NUM_0
+#define SAMPLE_BUFFER 256
 // ============================================
 
 // --- Sensors and OLED ---
@@ -36,22 +37,46 @@ float adsToVoltage(int16_t raw) {
   return (raw * 0.1875f) / 1000.0f; // ADS1115 default gain
 }
 
+static const i2s_config_t i2s_config = {
+  .mode = i2s_mode_t(I2S_MODE_MASTER | I2S_MODE_RX),
+  .sample_rate = 16000,                             // 16 kHz
+  .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,     // 32-bit per sample
+  .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,      // Left channel only
+  .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
+  .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
+  .dma_buf_count = 4,
+  .dma_buf_len = SAMPLE_BUFFER,
+  .use_apll = false
+};
+
+// I2S pin configuration
+static const i2s_pin_config_t pin_config = {
+  .bck_io_num = I2S_SCK,
+  .ws_io_num = I2S_WS,
+  .data_out_num = I2S_PIN_NO_CHANGE,
+  .data_in_num = I2S_SD
+};
+
+// Function to compute RMS of mic signal
 float readSoundRMS() {
-  const int READ_SAMPLES = 128;
-  int32_t buffer[READ_SAMPLES];
+  int32_t buffer[SAMPLE_BUFFER];
   size_t bytesRead = 0;
-  if (i2s_read(I2S_PORT, (void*)buffer, sizeof(buffer), &bytesRead, 50) != ESP_OK) return 0.0f;
-  if (bytesRead == 0) return 0.0f;
+  esp_err_t result = i2s_read(I2S_PORT, (void*)buffer, sizeof(buffer), &bytesRead, 100);
+  if (result != ESP_OK || bytesRead == 0) return 0.0f;
 
   int samples = bytesRead / sizeof(int32_t);
-  double sumsq = 0;
-  for (int i = 0; i < samples; i++) {
-    int32_t s = buffer[i] >> 8;
-    double val = (double)s / (1 << 23);
+  double sumsq = 0.0;
+
+  for (int i = 0; i < samples; ++i) {
+    int32_t s = buffer[i] >> 8;                      // shift down to 24-bit
+    double val = (double)s / (double)(1 << 23);      // normalize to -1..1
     sumsq += val * val;
   }
-  return sqrt(sumsq / samples);
+
+  double mean = sumsq / samples;
+  return sqrt(mean);
 }
+
 
 // ================== SETUP ==================
 void setup() {
@@ -81,20 +106,9 @@ void setup() {
   if (!mpuOK) Serial.println("⚠️ MPU9250 not detected!");
 
   // --- I2S (INMP441 mic) ---
-  const i2s_config_t cfg = {
-    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
-    .sample_rate = 16000,
-    .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
-    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
-    .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
-    .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
-    .dma_buf_count = 4,
-    .dma_buf_len = 128,
-    .use_apll = false
-  };
-  const i2s_pin_config_t pins = {I2S_SCK, I2S_WS, I2S_PIN_NO_CHANGE, I2S_SD};
-  i2s_driver_install(I2S_PORT, &cfg, 0, NULL);
-  i2s_set_pin(I2S_PORT, &pins);
+  
+  i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+  i2s_set_pin(I2S_PORT, &pin_config);
   i2s_start(I2S_PORT);
 
   Serial.println("✅ Setup complete");
@@ -134,6 +148,7 @@ void loop() {
 
   // --- INMP441 Mic RMS ---
   float soundRMS = readSoundRMS();
+  float dB = 20.0 * log10(soundRMS);
 
   // --- Serial Output ---
   Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, T(LM35)=%.1f°C, I=%.2fA, Acc=[%.2f,%.2f,%.2f], Sound=%.3f\n",
