@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_ADS1X15.h>
-#include <MPU9250.h>
+#include <MPU9250_asukiaaa.h>
 #include <DHT.h>
 #include <GyverOLED.h>
 #include "driver/i2s.h"
@@ -25,7 +25,7 @@
 
 // --- Sensors and OLED ---
 Adafruit_ADS1115 ads;
-MPU9250 mpu;
+MPU9250_asukiaaa mpu;
 DHT dht(DHTPIN, DHTTYPE);
 GyverOLED<SSH1106_128x64, OLED_BUFFER> oled;
 
@@ -102,8 +102,12 @@ void setup() {
   if (!adsOK) Serial.println("⚠️ ADS1115 not detected!");
 
   // --- MPU9250 ---
-  mpuOK = mpu.setup(0x68);
-  if (!mpuOK) Serial.println("⚠️ MPU9250 not detected!");
+  // mpuOK = mpu.setup(0x68);
+  // if (!mpuOK) Serial.println("⚠️ MPU9250 not detected!");
+   mpu.setWire(&Wire);
+  mpu.beginAccel();
+  mpu.beginGyro();
+  mpu.beginMag();
 
   // --- I2S (INMP441 mic) ---
   
@@ -138,21 +142,32 @@ void loop() {
   }
 
   // --- MPU9250 ---
-  float ax = 0, ay = 0, az = 0;
-  if (mpuOK) {
-    mpu.update();
-    ax = mpu.getAccX();
-    ay = mpu.getAccY();
-    az = mpu.getAccZ();
-  }
+ mpu.accelUpdate();
+  mpu.gyroUpdate();
+  mpu.magUpdate();
+
+  // --- Read Acceleration (m/s²) ---
+  float ax = mpu.accelX();
+  float ay = mpu.accelY();
+  float az = mpu.accelZ();
+
+  // --- Read Gyroscope (°/s) ---
+  float gx = mpu.gyroX();
+  float gy = mpu.gyroY();
+  float gz = mpu.gyroZ();
+
+  // --- Read Magnetometer (µT) ---
+  float mx = mpu.magX();
+  float my = mpu.magY();
+  float mz = mpu.magZ();
 
   // --- INMP441 Mic RMS ---
   float rms = readSoundRMS();
   float dB = 20.0 * log10(rms);
 
   // --- Serial Output ---
-  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, T(LM35)=%.1f°C, I=%.2fA, Acc=[%.2f,%.2f,%.2f], Sound=%.3f\n",
-                tempDHT, hum, tempLM35, currentA, ax, ay, az, rms);
+  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Acc=[%.2f,%.2f,%.2f], Sound=%.3f\n",
+                tempDHT, hum, currentA, ax, ay, az, rms);
 
   // --- OLED Display Update ---
   oled.clear();
@@ -164,23 +179,27 @@ void loop() {
   oled.print(hum, 0);
   oled.print("%");
 
-  oled.setCursor(0, 2);
-  oled.print("LM35: ");
-  oled.print(tempLM35, 1);
-  oled.print("C");
+  // oled.setCursor(0, 2);
+  // oled.print("LM35: ");
+  // oled.print(tempLM35, 1);
+  // oled.print("C");
 
-  oled.setCursor(0, 3);
+  oled.setCursor(0, 2);
   oled.print("Curr: ");
   oled.print(currentA, 2);
   oled.print("A");
 
+  oled.setCursor(0, 3);
+  oled.print("AccZ: ");
+  oled.print(ax, 5);
+
   oled.setCursor(0, 4);
   oled.print("AccZ: ");
-  oled.print(az, 2);
+  oled.print(az, 5);
 
   oled.setCursor(0, 5);
   oled.print("Sound:");
-  oled.print(rms, 3);
+  oled.print(rms, 5);
 
   oled.update();
   delay(1000);
