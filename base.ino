@@ -150,7 +150,7 @@ void loop() {
   // --- Read Acceleration (m/s²) ---
   float ax = mpu.accelX();
   float ay = mpu.accelY();
-  float az = mpu.accelZ();
+  float az = mpu.accelZ() + 1.0 ;
 
   // --- Read Gyroscope (°/s) ---
   float gx = mpu.gyroX();
@@ -162,13 +162,15 @@ void loop() {
   float my = mpu.magY();
   float mz = mpu.magZ();
 
+  float vibrationIntensity = sqrt(ax * ax + ay * ay + az * az );
+
   // --- INMP441 Mic RMS ---
   float rms = readSoundRMS();
   float dB = 20.0 * log10(rms);
 
   // --- Serial Output ---
-  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Acc=[%.2f,%.2f,%.2f], Sound=%.3f\n",
-                tempDHT, hum, currentA, ax, ay, az, rms);
+  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Acc=[%.2f,%.2f,%.2f],Vib=%.3f, Sound=%.3f\n",
+                tempDHT, hum, currentA, ax, ay, az,vibrationIntensity, rms);
 
   // --- OLED Display Update ---
   oled.clear();
@@ -191,12 +193,12 @@ void loop() {
   oled.print("A");
 
   oled.setCursor(0, 3);
-  oled.print("AccZ: ");
+  oled.print("AccX: ");
   oled.print(ax, 5);
 
   oled.setCursor(0, 4);
-  oled.print("AccZ: ");
-  oled.print(az, 5);
+  oled.print("Vibration: ");
+  oled.print(vibrationIntensity, 5);
 
   oled.setCursor(0, 5);
   oled.print("Sound:");
