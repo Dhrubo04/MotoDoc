@@ -164,21 +164,28 @@ void loop() {
 
   float vibrationIntensity = sqrt(ax * ax + ay * ay + az * az );
 
+  float magnetometer = sqrt(mx *mx + my * my + mz * mz );
+
   // --- INMP441 Mic RMS ---
   float rms = readSoundRMS();
   float dB = 20.0 * log10(rms);
 
   // --- Serial Output ---
-  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Acc=[%.2f,%.2f,%.2f],Vib=%.3f, Sound=%.3f\n",
-                tempDHT, hum, currentA, ax, ay, az,vibrationIntensity, rms);
+  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Mag=%.3f,Vib=%.3f, Sound=%.3f\n",
+                tempDHT, hum, currentA, magnetometer,vibrationIntensity, rms);
 
   // --- OLED Display Update ---
   oled.clear();
   oled.setScale(1);
   oled.setCursor(0, 0);
-  oled.print("DHT: ");
+  oled.print("Temp: ");
   oled.print(tempDHT, 1);
   oled.print("C  ");
+
+  //
+
+  oled.setCursor(0, 1);
+  oled.print("Hum: ");
   oled.print(hum, 0);
   oled.print("%");
 
@@ -193,8 +200,8 @@ void loop() {
   oled.print("A");
 
   oled.setCursor(0, 3);
-  oled.print("AccX: ");
-  oled.print(ax, 5);
+  oled.print("Magn: ");
+  oled.print(magnetometer, 5);
 
   oled.setCursor(0, 4);
   oled.print("Vibration: ");
