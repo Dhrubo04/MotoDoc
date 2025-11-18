@@ -406,7 +406,7 @@
                                             <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MIN : 0</h1>
                                         </div>
                                         <div class="col">
-                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 5</h1>
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 10</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -468,9 +468,9 @@
                                         <div style="width:100%;height:53px;" id="esd_10_p1"></div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col text-center" style="background:#090d24;border-radius:20px;padding-top:8px;margin-left:65px;margin-right:65px;">
+                                        <!-- <div class="col text-center" style="background:#090d24;border-radius:20px;padding-top:8px;margin-left:65px;margin-right:65px;">
                                             <h1 style="color:#01ffff;font-size:18px;font-family:Abel;">208V</h1>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="row text-center">
                                         <div class="col">
@@ -584,7 +584,7 @@ function updateDashboard(data) {
     ============================ */
 	//Soundbar
     window.liveSound = Number(data.sound);
-    let sNorm = Math.min(window.liveSound / 0.1, 1);
+    let sNorm = Math.min(window.liveSound / 10, 1);
 
     if (window.ove07p1) window.ove07p1.animate(sNorm);
 
@@ -594,7 +594,7 @@ function updateDashboard(data) {
 
 	//vibrationbar
     window.liveVib = Number(data.vibration);
-    let vNorm = Math.min(window.liveVib / 1, 1);
+    let vNorm = Math.min(window.liveVib / 5, 1);
 
     if (window.ove08p1) window.ove08p1.animate(vNorm);
 
