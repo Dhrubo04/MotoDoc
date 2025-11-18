@@ -5,711 +5,442 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>I4Inari UI Kit</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alata&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alatsi&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Andika+New+Basic&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Barlow&amp;display=swap">
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,400,600,800">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alata&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.css"/>
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #1a1a2e;
-        }
-        .card {
-            background-color: rgba(42, 52, 84, 0.8);
-            border-radius: 0.85rem;
-            border: none;
-        }
-        .no-border {
-            border: none;
-        }
-        .border-online {
-            border: 2px solid #1cc88a;
-        }
-        .border-offline {
-            border: 2px solid #e74b3b;
-        }
-        .border-total {
-            border: 2px solid #b2beb5;
-        }
-        .fill {
-            min-height: 100vh;
-        }
-        .counter-count {
-            font-size: 28px;
-        }
-        .dropdown-menu {
-            background-color: #2a3454;
-        }
-        .dropdown-item {
-            color: white;
-        }
-        .dropdown-item:hover {
-            background-color: #1cc88a;
-        }
-        .scroll-to-top {
-            position: fixed;
-            right: 1rem;
-            bottom: 1rem;
-            display: none;
-            width: 2.75rem;
-            height: 2.75rem;
-            text-align: center;
-            color: white;
-            background: rgba(90, 92, 105, 0.5);
-        }
-    </style>
+
+   <style>
+    body {
+        font-family: 'Nunito', sans-serif;
+        background-color: #1a1a2e;
+    }
+    .card {
+        background-color: rgba(42, 52, 84, 0.8);
+        border-radius: 0.85rem;
+        border: none;
+    }
+    .no-border { border: none; }
+    .border-online { border: 2px solid #1cc88a; }
+    .border-offline { border: 2px solid #e74b3b; }
+    .fill { min-height: 100vh; }
+
+    /* ⭐ NEW CSS YOU MUST ADD ⭐ */
+    #ove09card h1 {
+        color: gray !important;
+    }
+    #ove_09_p1 svg path {
+        stroke: transparent !important;
+    }
+
+	/* CURRENT CARD OLD UI */
+#ove09card {
+    border: 2px solid rgba(150,150,150,0.3);
+    border-radius: 12px;
+}
+
+#ove09card h1 {
+    color: #b2beb5 !important;
+}
+
+#ove_09_p1 svg path {
+    stroke: #b2beb5 !important;    /* grey meter */
+    stroke-width: 8 !important;
+}
+
+#ove_09_p1 svg {
+    filter: drop-shadow(0px 0px 4px #666);
+}
+
+</style>
+
+
+    <!-- JS Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-		
-			var stepsize = 250;
-		
-			// TEMPERATURE - Single Progress Bar
-			var ove06p1 = new ProgressBar.Circle("#ove_06_p1", {
-			  strokeWidth: 9,
-			  color: '#1cc88a',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var ove06bar1 = document.getElementById("ove_06_p1");
-				var value = Math.round(bar.value() * stepsize);
-				bar.setText('<span style="color:#01ffff;">TEMP</span><br>' + value + "°C");
-				if (value > 155) {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove06bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                } else if (value == 155) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove06bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else if (value > 145) {
-                    bar.path.setAttribute("stroke", "#16a085");
-					ove06bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #16a085)");
-                } else if (value == 145) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove06bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove06bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                }
-				ove06bar1.style.setProperty("width", "130px");
-			  }
-			});
-			
-			ove06p1.animate(0.58);
-			ove06p1.text.style.fontSize = '15px';
-			ove06p1.text.style.color = '#FFFFFF';
-			window.ove06p1 = ove06p1;
-			
-			// HUMIDITY - Single Progress Bar
-			var ove13p1 = new ProgressBar.Circle("#ove_13_p1", {
-			  strokeWidth: 9,
-			  color: '#1cc88a',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var ove13bar1 = document.getElementById("ove_13_p1");
-				var value = Math.round(bar.value() * stepsize);
-				bar.setText('<span style="color:#01ffff;">HUM</span><br>' + value + "%");
-				if (value > 55) {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove13bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                } else if (value == 55) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove13bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else if (value > 45) {
-                    bar.path.setAttribute("stroke", "#16a085");
-					ove13bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #16a085)");
-                } else if (value == 45) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove13bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove13bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                }
-				ove13bar1.style.setProperty("width", "130px");
-			  }
-			});
-			
-			ove13p1.animate(0.58);
-			ove13p1.text.style.fontSize = '15px';
-			ove13p1.text.style.color = '#FFFFFF';
-			window.ove13p1 = ove13p1;
-			
-			// SOUND INTENSITY - Single Progress Bar
-			var ove07p1 = new ProgressBar.Circle("#ove_07_p1", {
-			  strokeWidth: 9,
-			  color: '#1cc88a',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var ove07bar1 = document.getElementById("ove_07_p1");
-				var value = Math.round(bar.value() * stepsize);
-				bar.setText('<span style="color:#01ffff;">SOUND</span><br>' + value + "°C");
-				if (value > 155) {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove07bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                } else if (value == 155) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove07bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else if (value > 145) {
-                    bar.path.setAttribute("stroke", "#16a085");
-					ove07bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #16a085)");
-                } else if (value == 145) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove07bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove07bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                }
-				ove07bar1.style.setProperty("width", "130px");
-			  }
-			});
-			
-			ove07p1.animate(0.58);
-			ove07p1.text.style.fontSize = '15px';
-			ove07p1.text.style.color = '#FFFFFF';
-			window.ove07p1 = ove07p1;
-			
-			// VIBRATION - Single Progress Bar (Original)
-			var ove08p1 = new ProgressBar.Circle("#Vibration", {
-			  strokeWidth: 9,
-			  color: '#1cc88a',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var ove08bar1 = document.getElementById("Vibration");
-				var value = Math.round(bar.value() * stepsize);
-				bar.setText('<span style="color:#01ffff;">VIB</span><br>' + value + "°C");
-				if (value > 155) {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove08bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                } else if (value == 155) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove08bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else if (value > 145) {
-                    bar.path.setAttribute("stroke", "#16a085");
-					ove08bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #16a085)");
-                } else if (value == 145) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					ove08bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					ove08bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                }
-				ove08bar1.style.setProperty("width", "130px");
-			  }
-			});
-			
-			ove08p1.animate(0.6);
-			ove08p1.text.style.fontSize = '15px';
-			ove08p1.text.style.color = '#FFFFFF';
-			window.ove08p1 = ove08p1;
 
-			// OFFLINE Card
-			var ove09p1 = new ProgressBar.Circle("#ove_09_p1", {
-			  strokeWidth: 9,
-			  color: 'transparent',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var ove09bar1 = document.getElementById("ove_09_p1");
-				bar.setText('<span style="letter-spacing:1px; font-weight: bold; font-style:italic;">OFFLINE</span>');
-				ove09bar1.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 0px #69B34C)");
-				ove09bar1.style.setProperty("width", "130px");
-			  }
-			});
-			ove09p1.text.style.fontSize = '15px';
-			ove09p1.text.style.color = 'gray';
-			
-			// EATS11 Temperature
-			var eats11temp = new ProgressBar.Circle("#eats_11_temp", {
-			  strokeWidth: 9,
-			  color: '#1cc88a',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var thisbar = document.getElementById("eats_11_temp");
-				var value = Math.round(bar.value() * 100);
-				bar.setText('<i class="fas fa-thermometer-half" style="color:rgba(255,255,255,1); font-size: 12px;"></i><br>'+ value + "°C");
-				if (value > 25) {
+    <script>
+    $(document).ready(function () {
+
+        let stepsize = 250;
+
+        /* ==========================================================
+           FIXED TEMPERATURE PROGRESS BAR (0–50°C)
+        ========================================================== */
+        window.liveTemp = 0;
+
+        var ove06p1 = new ProgressBar.Circle("#ove_06_p1", {
+            strokeWidth: 9,
+            color: '#1cc88a',
+            trailColor: '#97a4b7',
+            trailWidth: 0.3,
+            easing: 'easeInOut',
+            duration: 800,
+            text: { autoStyleContainer: false },
+            svgStyle: null,
+
+            step: (state, bar) => {
+                let temp = Number(window.liveTemp);
+
+                bar.setText(
+                    '<span style="color:#01ffff;">TEMP</span><br>' +
+                    temp.toFixed(1) + "°C"
+                );
+
+                let holder = document.getElementById("ove_06_p1");
+
+                // Color logic
+                if (temp >= 40) {
                     bar.path.setAttribute("stroke", "#ee5253");
-					thisbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
-                } else if (value == 25) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					thisbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
-                } else if (value > 15) {
+                } else if (temp >= 30) {
                     bar.path.setAttribute("stroke", "#16a085");
-					thisbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #16a085)");
-                } else if (value == 15) {
-                    bar.path.setAttribute("stroke", "#e67e22");
-					thisbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #e67e22)");
                 } else {
-                    bar.path.setAttribute("stroke", "#ee5253");
-					thisbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ee5253)");
+                    bar.path.setAttribute("stroke", "#3498db");
                 }
-				thisbar.style.setProperty("width", "103px");
-			  }
-			});
-			
-			eats11temp.animate(0.2);
-			eats11temp.text.style.fontSize = '12px';
-			eats11temp.text.style.color = '#FFFFFF';
-			window.eats11temp = eats11temp;
 
-			// EATS11 Humidity
-			var eats11humid = new ProgressBar.Circle("#eats_11_humid", {
-			  strokeWidth: 9,
-			  color: 'url(#gradient)',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: true
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var thisbar = document.getElementById("eats_11_humid");
-				var value = Math.round(bar.value()*100);
-				bar.setText('<i class="fas fa-tint" style="color:rgba(255,255,255,1); font-size: 12px;"></i><br>'+ value + "%");
-				thisbar.style.setProperty("filter", "drop-shadow(0px 0px 6px gray)");
-				thisbar.style.setProperty("width", "103px");
-			  }
-			});
-			
-			var Gradient = '<defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#D7008A"/><stop offset="25%" stop-color="#DB2DEE"/><stop offset="50%" stop-color="#E94B8F"/><stop offset="100%" stop-color="#F86930"/></linearGradient></defs>';
-			
-			eats11humid.svg.insertAdjacentHTML('afterbegin', Gradient);
-			eats11humid.animate(0.5);
-			eats11humid.text.style.fontSize = '12px';
-			eats11humid.text.style.color = '#FFFFFF';
-			window.eats11humid = eats11humid;
+                holder.style.width = "130px";
+            }
+        });
 
-			// HAST12 Temperature
-			var hast12temp = new ProgressBar.Circle("#hast_12_temp", {
-			  strokeWidth: 9,
-			  color: '#1cc88a',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var tempbar = document.getElementById("hast_12_temp");
-				var value = Math.round(bar.value() * 200);
-				bar.setText('<i class="fas fa-thermometer-half" style="color:rgba(255,255,255,1); font-size: 11px;"></i><br>'+ value + "°C");
-				if (value > 130) {
-					bar.path.setAttribute("stroke", "#FF0D0D");
-					tempbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #FF0D0D)");
-				} else if (value >= 125) {
-					bar.path.setAttribute("stroke", "#FF4E11");
-					tempbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #FF4E11)");
-				} else if (value >= 120) {
-					bar.path.setAttribute("stroke", "#FF8E15");
-					tempbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #FF8E15)");
-				} else if (value >= 110) {
-					bar.path.setAttribute("stroke", "#FAB733");
-					tempbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #FAB733)");
-				} else if (value >= 100) {
-					bar.path.setAttribute("stroke", "#ACB334");
-					tempbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #ACB334)");
-				} else {
-					bar.path.setAttribute("stroke", "#69B34C");
-					tempbar.style.setProperty("-webkit-filter", "drop-shadow(0px 0px 5px #69B34C)");
-				}
-				tempbar.style.setProperty("width", "95px");
-			  }
-			});
-			
-			hast12temp.animate(Number(130)/200);
-			hast12temp.text.style.fontSize = '11px';
-			hast12temp.text.style.color = '#FFFFFF';
-			
-			// HAST12 Humidity
-			var hast12humid = new ProgressBar.Circle("#hast_12_humid", {
-			  strokeWidth: 9,
-			  color: 'url(#gradient)',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: true
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var humidbar = document.getElementById("hast_12_humid");
-				var value = Math.round(bar.value()*100);
-				bar.setText('<i class="fas fa-tint" style="color:rgba(255,255,255,1); font-size: 11px;"></i><br>'+ value + "%");
-				humidbar.style.setProperty("filter", "drop-shadow(0px 0px 6px gray)");
-				humidbar.style.setProperty("width", "95px");
-			  }
-			});
-		
-			hast12humid.svg.insertAdjacentHTML('afterbegin', Gradient);
-			hast12humid.animate(Number(85)/100);
-			hast12humid.text.style.fontSize = '11px';
-			hast12humid.text.style.color = '#FFFFFF';
-			
-			// HAST12 Pressure
-			var hast12pressure = new ProgressBar.Circle("#hast_12_pressure", {
-			  strokeWidth: 9,
-			  color: '#01ffff',
-			  trailColor: '#97a4b7',
-			  trailWidth: 0.3,
-			  easing: 'easeInOut',
-			  duration: 1200,
-			  text: {
-				autoStyleContainer: false
-			  },
-			  svgStyle: null,
-			  step: (state, bar) => {
-				var pressurebar = document.getElementById("hast_12_pressure");
-				var value = bar.value().toFixed(1);;
-				bar.setText('<i class="fas fa-tachometer-alt" style="color:rgba(255,255,255,1); font-size: 11px;"></i><br>'+ value);
-				pressurebar.style.setProperty("filter", "drop-shadow(0px 0px 6px gray)");
-				pressurebar.style.setProperty("width", "95px");
-			  }
-			});
-			
-			hast12pressure.animate(Number(0.13));
-			hast12pressure.text.style.fontSize = '11px';
-			hast12pressure.text.style.color = '#FFFFFF';
-			
-			// HAST12 Utilization
-			var hast12util = new ProgressBar.Line("#hast_12_util", {
-			  strokeWidth: 4,
-			  easing: 'easeInOut',
-			  duration: 1400,
-			  color: '#39FF14',
-			  trailColor: '#2d2e5f',
-			  trailWidth: 2,
-			  svgStyle: {
-				strokeLinecap: 'round',
-			  },
-			  text: {
-				style: {
-					color: 'white',
-					position: 'absolute',
-					left: '12.3%',
-					top: '78%',
-					padding: 0,
-					margin: 0,
-				},
-				autoStyleContainer: false,
-				className: 'util_bar_label'
-			  },
-			  step: (state, bar) => {
-				var utilbar = document.getElementById("hast_12_util");
-				bar.setText('<span style="font-size:12px; line-height: 240%; color:rgb(151,164,183);">Utilization</span><br><span style="font-size: 14px;font-weight: bold;letter-spacing: 0px;">93%</span>');
-			  }
-			});
-		
-			hast12util.animate(Number(93)/100);
-			$("#hast_12_util svg").css("border-radius", "23px");
-			
-			// Dropdown handling
-			$('#ovennum').click(function() {
-				$('#oven_list').addClass("show");
-				droplist = 1;
-			});
-			
-			$(document).on('click', function(event) {
-				if (droplist == 1){
-					if (!$(event.target).closest('#ovennum').length) {
-						$('#oven_list').removeClass("show");
-					}
-				} 
-			});
-		});
-	</script>
+        ove06p1.text.style.fontSize = '15px';
+        ove06p1.text.style.color = '#FFFFFF';
+        window.ove06p1 = ove06p1;
+
+
+        /* ==========================================================
+           HUMIDITY PROGRESS BAR (0–100%)
+        ========================================================== */
+        window.liveHum = 0;
+
+        var ove13p1 = new ProgressBar.Circle("#ove_13_p1", {
+            strokeWidth: 9,
+            color: '#1cc88a',
+            trailColor: '#97a4b7',
+            duration: 900,
+            text: { autoStyleContainer: false },
+
+            step: (state, bar) => {
+                let hum = Math.round(bar.value() * 100);
+
+                bar.setText(
+                    '<span style="color:#01ffff;">HUM</span><br>' +
+                    hum + "%"
+                );
+
+                let holder = document.getElementById("ove_13_p1");
+
+                if (hum >= 80) bar.path.setAttribute("stroke", "#ee5253");
+                else if (hum >= 60) bar.path.setAttribute("stroke", "#16a085");
+                else bar.path.setAttribute("stroke", "#3498db");
+
+                holder.style.width = "130px";
+            }
+        });
+
+        ove13p1.text.style.fontSize = '15px';
+        ove13p1.text.style.color = '#FFFFFF';
+        window.ove13p1 = ove13p1;
+
+
+        /* ==========================================================
+           SOUND INTENSITY BAR (0–5 NORMALIZED)
+        ========================================================== */
+        window.liveSound = 0;
+
+        var ove07p1 = new ProgressBar.Circle("#ove_07_p1", {
+            strokeWidth: 9,
+            trailColor: '#97a4b7',
+            trailWidth: 0.3,
+            duration: 900,
+            text: { autoStyleContainer: false },
+
+            step: (state, bar) => {
+                let val = Number(window.liveSound).toFixed(3);
+
+                bar.setText(
+                    '<span style="color:#01ffff;">SOUND</span><br>' +
+                    val
+                );
+
+                bar.path.setAttribute("stroke", "#01ffff");
+
+                document.getElementById("ove_07_p1").style.width = "130px";
+            }
+        });
+
+        ove07p1.text.style.fontSize = '15px';
+        ove07p1.text.style.color = '#FFFFFF';
+        window.ove07p1 = ove07p1;
+
+
+        /* ==========================================================
+           VIBRATION BAR (0–5 NORMALIZED)
+        ========================================================== */
+        window.liveVib = 0;
+
+        var ove08p1 = new ProgressBar.Circle("#Vibration", {
+            strokeWidth: 9,
+            trailColor: '#97a4b7',
+            trailWidth: 0.3,
+            duration: 900,
+            text: { autoStyleContainer: false },
+
+            step: (state, bar) => {
+                let vib = Number(window.liveVib).toFixed(3);
+
+                bar.setText(
+                    '<span style="color:#01ffff;">VIB</span><br>' +
+                    vib
+                );
+
+                bar.path.setAttribute("stroke", "#f39c12");
+
+                document.getElementById("Vibration").style.width = "130px";
+            }
+        });
+
+        ove08p1.text.style.fontSize = '15px';
+        ove08p1.text.style.color = '#FFFFFF';
+        window.ove08p1 = ove08p1;
+
+
+        /* ==========================================================
+           CURRENT, VOLTAGE, ETC. (UNTOUCHED)
+           — These will update using updateDashboard()
+        ========================================================== */
+
+    });
+    </script>
 </head>
-
 <body id="page-top" style="background-image: url('moto_wall.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;">
     <div id="wrapper">
         <div class="d-flex flex-column fill" id="content-wrapper" style="background-color: transparent;">
             <div id="content">
                 <div class="container-fluid">
+
+                    <!-- HEADER -->
                     <div class="row mb-3 mt-4 align-items-center">
-						<div class="col-md-10 col-xl-10" style="text-align: left;">
-							<h1 style="color: rgb(255,255,255);font-size: 15px;font-family: Alata, sans-serif;font-weight: bold;"><span style="cursor: pointer;" id="gomain"><i class="fas fa-home" style="color:rgba(255,255,255,1); font-size: 15px;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Main</span>&nbsp;&nbsp;/&nbsp;&nbsp;<span style="cursor: pointer;" id="gohome">Dashboard</span>&nbsp;&nbsp;/&nbsp;&nbsp;Motor</h1>
-						</div>
-						<div class="col-md-2 col-xl-2">
-							<div class="row">
-								<div class="col-md-4 col-xl-4">
-								</div>
-								<div class="col-md-8 col-xl-8">
-								</div>
-							</div>
-						</div>
-					</div>
+                        <div class="col-md-10 col-xl-10">
+                            <h1 style="color:white;font-size:15px;font-family:Alata;">
+                                <span id="gomain" style="cursor:pointer;">
+                                    <i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;Main
+                                </span>
+                                &nbsp;/&nbsp;
+                                <span id="gohome" style="cursor:pointer;">Dashboard</span>
+                                &nbsp;/&nbsp;Motor
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- CONNECTIVITY -->
                     <div class="row align-items-end">
+
+                        <!-- TOTAL MOTORS -->
                         <div class="col-md-12 col-xl-2">
-							<div class="card py-0 border-offline" id="ovennum" style="cursor: pointer; margin-bottom: 19px;">
-								<div class="card-body">
-									<div class="row align-items-center no-gutters">
-										<div class="col me-2" style="margin-left: 6px;">
-											<div class="text-success fw-bold text-xs mb-1"><span style="color: rgb(231,74,59);font-size: 14px;">Total No.<br>of Motors</span></div>
-											<div class="text-dark fw-bold h4 mb-0"><span class="counter-count" style="color: rgb(255,255,255);font-size: 23px;" id="ovennumspan">6</span></div>
-										</div>
-										<div class="col-auto p-0" style="margin-right: 5px;">
-											<span class="fa-stack fa-2x">
-											  <i class="fas fa-square fa-stack-1x" style="color:rgba(231,74,59,0.2); font-size: 55px;"></i>
-											  <i class="fas fa-fire-alt fa-stack-1x" style="color:rgba(231,74,59,1); font-size: 23px;"></i>
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12 col-xl-4">
-							<div class="row">
-								<div class="card mb-2 no-border p-3" style="background-color: rgba(25,42,76, 0.5);">
-									<div class="row mb-2" style="text-align: center;">
-										<h1 style="color: rgb(151,164,183);font-size: 15px;font-family: Alata, sans-serif;font-weight: bold; letter-spacing: 2px;">CONNECTIVITY</h1>
-									</div>
-									<div class="row">
-										<div class="col-md-6 col-xl-6">
-											<div class="card py-0 border-online mb-0" id="connnum" style="cursor: pointer;">
-												<div class="card-body">
-													<div class="row align-items-center no-gutters">
-														<div class="col me-1" style="margin-left: 6px;">
-															<div class="text-primary fw-bold text-xs mb-2"><span style="color: rgb(28,200,138);font-size: 14px;">Online</span></div>
-															<div class="text-dark fw-bold h4 mb-0"><span style="color: rgb(255,255,255);font-size: 23px;" id="conn_num">1</span></div>
-														</div>
-														<div class="col-auto p-0" style="margin-right: 3px;">
-															<span class="fa-stack fa-2x">
-															  <i class="fas fa-square fa-stack-1x" style="color:rgba(28,200,138,0.2); font-size: 55px;"></i>
-															  <i class="fas fa-check fa-stack-1x" style="color:rgba(28,200,138,1); font-size: 20px;"></i>
-															</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-6 col-xl-6">
-											<div class="card py-0 border-total mb-0" id="disconnnum" style="cursor: pointer;">
-												<div class="card-body">
-													<div class="row align-items-center no-gutters">
-														<div class="col" style="margin-left: 6px;">
-															<div class="fw-bold text-xs mb-2"><span style="font-size: 14px; color:rgb(178, 190, 181);">Offline</span></div>
-															<div class="row g-0 align-items-center">
-																<div class="col">
-																	<div class="text-dark fw-bold h4 mb-0 me-3"><span class="counter-count" style="color: rgb(255,255,255);" id="disconn_num">5</span></div>
-																</div>
-															</div>
-														</div>
-														<div class="col-auto p-0" style="margin-right: 3px;">
-															<span class="fa-stack fa-2x">
-															  <i class="fas fa-square fa-stack-1x" style="color:rgba(178, 190, 181,0.2); font-size: 55px;"></i>
-															  <i class="fas fa-times fa-stack-1x" style="color: rgba(178, 190, 181,1); font-size: 24px;"></i>
-															</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12 col-xl-2">
-                            <div class="card py-0 border-online" id="stablenum" style="cursor: pointer;margin-bottom: 23px;">
+                            <div class="card py-0 border-offline" id="ovennum" style="cursor:pointer; margin-bottom:19px;">
                                 <div class="card-body">
                                     <div class="row align-items-center no-gutters">
-                                        <div class="col me-2" style="margin-left: 6px;">
-                                            <div class="text-success fw-bold text-xs mb-1"><span style="font-size: 14px;">Stable</span></div>
-                                            <div class="row g-0 align-items-center">
-                                                <div class="col me-2">
-                                                    <div class="text-dark fw-bold h4 mb-0 me-3"><span class="counter-count" style="color: rgb(255,255,255);" id="stable_num">1</span></div>
-                                                </div>
-                                            </div>
+                                        <div class="col me-2">
+                                            <div style="color:#e74b3b;font-size:14px;">Total No.<br>of Motors</div>
+                                            <div><span id="ovennumspan" style="color:white;font-size:23px;">6</span></div>
                                         </div>
-                                        <div class="col-auto p-0" style="margin-right: 5px;">
-											<span class="fa-stack fa-2x">
-											  <i class="fas fa-square fa-stack-1x" style="color:rgba(28,200,138,0.2); font-size: 55px;"></i>
-											  <i class="fas fa-thumbs-up fa-stack-1x" style="color:rgba(28,200,138,1); font-size: 22px;"></i>
-											</span>
-										</div>
+                                        <div class="col-auto p-0">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-square fa-stack-1x" style="color:rgba(231,74,59,0.2);font-size:55px;"></i>
+                                                <i class="fas fa-fire-alt fa-stack-1x" style="color:#e74b3b;font-size:23px;"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-						<div class="col-md-12 col-xl-4">
-							<div class="row">
-							</div>
-						</div>	
-					</div>
-					<div class="row">
-						<div class="col-md-12 col-xl-2">
-							<div class="dropdown-menu animated--grow-in" id="oven_list" style="overflow: auto;max-height: 210px;">
-								<a class="dropdown-item disabled">Please select one ...</a>
-								<a class="dropdown-item" href="#" id="resetFilter" style="font-weight: bold;">Reset Filter</a>
-							</div>
-						</div>
-						<div class="col-md-6 col-xl-2">
-						</div>
-						<div class="col-md-6 col-xl-2">
-						</div>
-						<div class="col-md-12 col-xl-2">
-						</div>
-						<div class="col-md-6 col-xl-2">
-						</div>
-						<div class="col-md-6 col-xl-2">
-						</div>
-					</div>
-					<div class="row">
-					</div>
-					<div class="row" id="all_cards_are_inside_here">
-					
-						<div class="col-md-2 col-xl-2">
-                            <div class="card mb-4 no-border ovecards" style="cursor: pointer;background-color: rgba(137,23,48,0.5);" id="ove06card">
-								<div class="card-body">
-									<div class="row mb-1" style="margin-left: 7px; margin-top: 0px; text-align: center;margin-right: 7px;">
-										<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold;">Temperature</h1>
-									</div>
-									<div class="row mb-2" style="margin-left: 7px; margin-right: 7px;">
-										<div class="col p-2">
-											<div class="row text-center mb-1">
-												<div id="ove_06_p1" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-0">
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MIN : 145°C</h1>
-										</div>
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MAX : 155°C</h1>
-										</div>
-									</div>
-								</div>
-							</div>
+
+                        <!-- ONLINE/OFFLINE -->
+                        <div class="col-md-12 col-xl-4">
+                            <div class="card mb-2 no-border p-3" style="background-color:rgba(25,42,76,0.5);">
+                                <div class="row mb-2 text-center">
+                                    <h1 style="color:#97a4b7;font-size:15px;font-family:Alata;letter-spacing:2px;">CONNECTIVITY</h1>
+                                </div>
+
+                                <div class="row">
+                                    <!-- ONLINE -->
+                                    <div class="col-md-6 col-xl-6">
+                                        <div class="card py-0 border-online mb-0" id="connnum" style="cursor:pointer;">
+                                            <div class="card-body">
+                                                <div class="row align-items-center no-gutters">
+                                                    <div class="col me-1">
+                                                        <div style="color:#1cc88a;font-size:14px;">Online</div>
+                                                        <div><span id="conn_num" style="color:white;font-size:23px;">1</span></div>
+                                                    </div>
+                                                    <div class="col-auto p-0">
+                                                        <span class="fa-stack fa-2x">
+                                                            <i class="fas fa-square fa-stack-1x" style="color:rgba(28,200,138,0.2);font-size:55px;"></i>
+                                                            <i class="fas fa-check fa-stack-1x" style="color:#1cc88a;font-size:20px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- OFFLINE -->
+                                    <div class="col-md-6 col-xl-6">
+                                        <div class="card py-0 border-total mb-0" id="disconnnum" style="cursor:pointer;">
+                                            <div class="card-body">
+                                                <div class="row align-items-center no-gutters">
+                                                    <div class="col">
+                                                        <div style="font-size:14px;color:#b2beb5;">Offline</div>
+                                                        <div><span id="disconn_num" style="color:white;font-size:23px;">5</span></div>
+                                                    </div>
+                                                    <div class="col-auto p-0">
+                                                        <span class="fa-stack fa-2x">
+                                                            <i class="fas fa-square fa-stack-1x" style="color:rgba(178,190,181,0.2);font-size:55px;"></i>
+                                                            <i class="fas fa-times fa-stack-1x" style="color:#b2beb5;font-size:24px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-						
-						<div class="col-md-2 col-xl-2">
-                            <div class="card mb-4 no-border ovecards" style="cursor: pointer;background-color: rgba(11,97,119,0.5);" id="ove13card">
-								<div class="card-body">
-									<div class="row mb-1" style="margin-left: 7px; margin-top: 0px; text-align: center;margin-right: 7px;">
-										<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold;">Humidity</h1>
-									</div>
-									<div class="row mb-2" style="margin-left: 7px; margin-right: 7px;">
-										<div class="col p-2">
-											<div class="row text-center mb-1">
-												<div id="ove_13_p1" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-0">
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MIN : 145°C</h1>
-										</div>
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MAX : 155°C</h1>
-										</div>
-									</div>
-								</div>
-							</div>
+
+                        <!-- STABLE -->
+                        <div class="col-md-12 col-xl-2">
+                            <div class="card py-0 border-online" id="stablenum" style="cursor:pointer;margin-bottom:23px;">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div style="color:#1cc88a;font-size:14px;">Stable</div>
+                                            <div><span id="stable_num" style="color:white;font-size:23px;">1</span></div>
+                                        </div>
+                                        <div class="col-auto p-0">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-square fa-stack-1x" style="color:rgba(28,200,138,0.2);font-size:55px;"></i>
+                                                <i class="fas fa-thumbs-up fa-stack-1x" style="color:#1cc88a;font-size:22px;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-						
-						<div class="col-md-2 col-xl-2">
-                            <div class="card mb-4 no-border ovecards" style="cursor: pointer;background-color: rgba(11,97,119, 0.5);" id="ove07card">
-								<div class="card-body">
-									<div class="row mb-1" style="margin-left: 7px; margin-top: 0px; text-align: center;margin-right: 7px;">
-										<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold;">Sound Intensity</h1>
-									</div>
-									<div class="row mb-2" style="margin-left: 7px; margin-right: 7px;">
-										<div class="col p-2">
-											<div class="row text-center mb-1">
-												<div id="ove_07_p1" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-0">
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MIN : 145°C</h1>
-										</div>
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MAX : 155°C</h1>
-										</div>
-									</div>
-								</div>
-							</div>
+
+                    </div> <!-- END Connectivity row -->
+
+                    <!-- ALL SENSOR CARDS -->
+                    <div class="row" id="all_cards_are_inside_here">
+
+                        <!-- TEMPERATURE -->
+                        <div class="col-md-2 col-xl-2">
+                            <div class="card mb-4 no-border ovecards" style="cursor:pointer;background-color:rgba(137,23,48,0.7);" id="ove06card">
+                                <div class="card-body">
+                                    <div class="row mb-1 text-center">
+                                        <h1 style="color:white;font-size:18px;font-family:Alata;">Temperature</h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col p-2">
+                                            <div class="text-center">
+                                                <div id="ove_06_p1" style="margin:auto;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MIN : 0°C</h1>
+                                        </div>
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 50°C</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-						
-						<div class="col-md-2 col-xl-2">
-                            <div class="card mb-4 no-border ovecards" style="cursor: pointer; background-color: rgba(11,97,119, 0.5);" id="ove08card">
-								<div class="card-body">
-									<div class="row" style="margin-left: 7px; margin-top: 0px; text-align: center;margin-right: 7px;">
-										<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold;">Vibration</h1>
-									</div>
-									<div class="row mb-2" style="margin-left: 7px; margin-right: 7px;">
-										<div class="col p-2">
-											<div class="row text-center mb-1">
-												<div id="Vibration" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-0">
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MIN : 145°C</h1>
-										</div>
-										<div class="col" style="text-align: center;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MAX : 155°C</h1>
-										</div>
-									</div>
-								</div>
-							</div>
+
+                        <!-- HUMIDITY -->
+                        <div class="col-md-2 col-xl-2">
+                            <div class="card mb-4 no-border ovecards" style="cursor:pointer;background-color:rgba(11,97,119,0.7);" id="ove13card">
+                                <div class="card-body">
+                                    <div class="row mb-1 text-center">
+                                        <h1 style="color:white;font-size:18px;font-family:Alata;">Humidity</h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col p-2">
+                                            <div class="text-center">
+                                                <div id="ove_13_p1" style="margin:auto;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MIN : 0%</h1>
+                                        </div>
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 100%</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-						
-						<div class="col-md-2 col-xl-2">
+
+                        <!-- SOUND -->
+                        <div class="col-md-2 col-xl-2">
+                            <div class="card mb-4 no-border ovecards" style="cursor:pointer;background-color:rgba(11,97,119,0.7);" id="ove07card">
+                                <div class="card-body">
+                                    <div class="row mb-1 text-center">
+                                        <h1 style="color:white;font-size:18px;font-family:Alata;">Sound Intensity</h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col p-2">
+                                            <div class="text-center">
+                                                <div id="ove_07_p1" style="margin:auto;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MIN : 0</h1>
+                                        </div>
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 5</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VIBRATION -->
+                        <div class="col-md-2 col-xl-2">
+                            <div class="card mb-4 no-border ovecards" style="cursor:pointer;background-color:rgba(11,97,119,0.7);" id="ove08card">
+                                <div class="card-body">
+                                    <div class="row mb-1 text-center">
+                                        <h1 style="color:white;font-size:18px;font-family:Alata;">Vibration</h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col p-2">
+                                            <div class="text-center">
+                                                <div id="Vibration" style="margin:auto;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MIN : 0</h1>
+                                        </div>
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 5</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CURRENT -->
+                        <div class="col-md-2 col-xl-2">
 						    <div class="card mb-4 no-border" style="background-color: rgba(54, 69, 79, 0.5);" id="ove09card">
 								<div class="card-body">
 									<div class="row mb-1" style="margin-left: 7px; margin-top: 0px; text-align: center;margin-right: 7px;">
@@ -725,123 +456,41 @@
 								</div>
 							</div>
 						</div>
-						
-						<div class="col-md-2 col-xl-2">
-                            <div class="card mb-4 no-border ovecards" style="cursor: pointer;background-color: rgba(11,97,119, 0.5);" id="esd10card">
-								<div class="card-body">
-    								<div class="row mb-3" style="margin-left: 7px; margin-top: 0px; text-align: center;margin-right: 7px;">
-    									<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold;">Voltage</h1>
-    								</div>
-    								<div class="row mb-3" style="margin-left: 4px; text-align: center;margin-right: 4px;">
-    									<div style="width:100%;height:53px;margin:auto;" id="esd_10_p1"></div>
-    								</div>
-    								<div class="row mb-3">
-    									<div class="col" style="text-align: center; background-color: #090d24; border-radius: 20px; padding-top: 8px; margin-left: 65px; margin-right: 65px;">
-    										<div class="row">
-    											<h1 style="color: #01ffff;font-size: 18px;font-family: Abel, sans-serif; letter-spacing: 1px;">208V</h1>
-    										</div>
-    									</div>
-    								</div>
-    								<div class="row mb-0">
-    									<div class="col" style="text-align: left;">
-    										<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MIN : -220V</h1>
-    									</div>
-    									<div class="col" style="text-align: right;">
-    										<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MAX : 220V</h1>
-    									</div>
-    								</div>
-    							</div>
-    						</div>
+
+                        <!-- VOLTAGE -->
+                        <div class="col-md-2 col-xl-2">
+                            <div class="card mb-4 no-border ovecards" style="cursor:pointer;background-color:rgba(11,97,119,0.7);" id="esd10card">
+                                <div class="card-body">
+                                    <div class="row mb-3 text-center">
+                                        <h1 style="color:white;font-size:18px;font-family:Alata;">Voltage</h1>
+                                    </div>
+                                    <div class="row mb-3 text-center">
+                                        <div style="width:100%;height:53px;" id="esd_10_p1"></div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col text-center" style="background:#090d24;border-radius:20px;padding-top:8px;margin-left:65px;margin-right:65px;">
+                                            <h1 style="color:#01ffff;font-size:18px;font-family:Abel;">208V</h1>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MIN : -220V</h1>
+                                        </div>
+                                        <div class="col">
+                                            <h1 style="color:#97a4b7;font-size:12px;font-family:Abel;">MAX : 220V</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-						
-						<div class="col-md-2 col-xl-2">
-						    <div class="card mb-4 no-border ovecards" style="cursor: pointer;" id="eats11card">
-								<div class="card-body">
-									<div class="row mb-3" style="margin-left: -15px; margin-top: 0px; text-align: center;margin-right: -15px;">
-										<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold;">EATS11</h1>
-									</div>
-									<div class="row mb-3" style="margin-left: 4px; text-align: center;margin-right: 4px;">
-										<div class="col text-center p-0">
-											<div class="row mb-1">
-												<div id="eats_11_temp" style="margin: auto;"></div>
-											</div>
-										</div>
-										<div class="col text-center p-0">
-											<div class="row mb-1">
-												<div id="eats_11_humid" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-0">
-										<div class="col" style="text-align: left;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MIN : 15°C</h1>
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">MAX : 25°C</h1>
-										</div>
-										<div class="col" style="text-align: right;">
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">40% : MIN</h1>
-											<h1 style="color: rgb(151,164,183);font-size: 12px;font-family: Abel, sans-serif; font-style: italic; letter-spacing: 1px;">60% : MAX</h1>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-md-2 col-xl-2 mb-3">
-                            <div class="card mb-1 no-border ovecards" id="hast12card" style="cursor: pointer;">
-            					<div class="card-header" id="hast12cardheader" style="background-color: #16a085;border: 0;border-top-left-radius:0.85rem;border-top-right-radius:0.85rem;-webkit-filter:drop-shadow(0px 0px 5px #16a085);">
-                                   <div class="row mb-0 mt-1" style="margin-left: 7px;text-align: center;margin-right: 7px; ">
-										<h1 style="color: rgb(255,255,255);font-size: 18px;font-family: Alata, sans-serif;font-weight: bold; ">PCT12</h1>
-									</div>
-                               </div>
-								<div class="card-body">
-									<div class="row mb-3">
-										<div class="col" style="text-align: center; background-color:#090d24; border-radius: 20px; padding-top: 8px; margin-left: 60px; margin-right: 60px;">
-											<div class="row">
-												<h1 style="color: #01ffff;font-size: 15px;font-family: Abel, sans-serif; letter-spacing: 0px;-webkit-filter: drop-shadow(0px 0px 1px #01ffff);"><span id="hast_12_time">00:00:00</span></h1>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-0" style="margin-left: 3px; text-align: center;margin-right: 3px;">
-										<div class="col text-center p-0">
-											<div class="row mb-0">
-												<div id="hast_12_temp" style="margin: auto;"></div>
-											</div>
-										</div>
-										<div class="col text-center p-0">
-											<div class="row mb-0">
-												<div id="hast_12_humid" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-						            <div class="row mb-2" style="margin-top: -6px;">
-										<div class="col text-center p-0">
-											<div class="row mb-0">
-												<div id="hast_12_pressure" style="margin: auto;"></div>
-											</div>
-										</div>
-									</div>
-									<div class="row mb-3 mt-0" style="margin-left: 0px;margin-right: 0px;">
-										<div id="hast_12_util" style="margin: auto; margin-top: 0px;"></div>
-									</div>
-								</div>
-							</div>
-							<div id="hast_12_msg">
-								<div class="card mb-0 no-border">
-    								<div class="card-body pt-2 pb-0">
-    									<div class="row" style="text-align: center;">
-    										<h1 class="alert_text" style="color: #01ffff;font-size: 15px;font-family: Alata, sans-serif; letter-spacing:1px;-webkit-filter: drop-shadow(0px 0px 1px #01ffff);text-transform: uppercase;">TESTING IN PROGRESS</h1>
-    									</div>
-    								</div>
-    							</div>
-							</div>
-                        </div>
-			
-					</div>
-				</div>
-			</div>
-        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
-    </div>
-	<button id="connectBtn" style="
+
+                    </div><!-- END sensor cards row -->
+
+                </div><!-- END container-fluid -->
+            </div><!-- END content -->
+        </div><!-- END wrapper -->
+<!-- CONNECT BUTTON -->
+<button id="connectBtn" style="
   position: fixed; bottom: 20px; right: 20px;
   background: #1cc88a; color: white;
   border: none; padding: 10px 20px;
@@ -851,35 +500,46 @@
 <script>
 let port, reader;
 
+/* ======================================================
+   SERIAL CONNECTION
+====================================================== */
 async function connectSerial() {
   try {
     port = await navigator.serial.requestPort();
     await port.open({ baudRate: 115200 });
-    reader = port.readable.getReader();
-    console.log("Connected to ESP32");
+
+    console.log("✅ Connected to ESP32");
 
     const decoder = new TextDecoderStream();
     port.readable.pipeTo(decoder.writable);
-    const inputStream = decoder.readable;
-    const inputReader = inputStream.getReader();
+
+    const input = decoder.readable.getReader();
     let buffer = "";
 
     while (true) {
-      const { value, done } = await inputReader.read();
+      const { value, done } = await input.read();
       if (done) break;
+
       if (value) {
         buffer += value;
+
         let lines = buffer.split("\n");
         buffer = lines.pop();
+
         for (let line of lines) {
+          line = line.trim();
+          if (line.length === 0) continue;
+
           try {
-            const data = JSON.parse(line.trim());
+            const data = JSON.parse(line);
             updateDashboard(data);
           } catch (e) {
+            console.warn("Bad JSON:", line);
           }
         }
       }
     }
+
   } catch (err) {
     console.error("Serial error:", err);
   }
@@ -887,66 +547,103 @@ async function connectSerial() {
 
 document.getElementById("connectBtn").addEventListener("click", connectSerial);
 
+
+/* ======================================================
+   DASHBOARD UPDATE FUNCTION — FIXED
+====================================================== */
 function updateDashboard(data) {
+
     console.log("LIVE DATA:", data);
 
+    /* ============================
+       TEMPERATURE (0–50°C)
+    ============================ */
+    window.liveTemp = Number(data.temp);
+    let tNorm = window.liveTemp / 50;
+    tNorm = Math.max(0, Math.min(tNorm, 1));
+
     if (window.ove06p1) {
-        let norm = (data.temp - 145) / (155 - 145);
-        norm = Math.min(Math.max(norm, 0), 1);
-        window.ove06p1.animate(norm);
+        window.ove06p1.animate(tNorm);
+        window.ove06p1.setText(
+            '<span style="color:#01ffff;">TEMP</span><br>' +
+            window.liveTemp.toFixed(1) + "°C"
+        );
     }
 
-    if (window.ove13p1) {
-        window.ove13p1.animate(data.hum / 100);
-    }
+    /* ============================
+       HUMIDITY (0–100%)
+    ============================ */
+    window.liveHum = Number(data.hum);
+    let hNorm = window.liveHum / 100;
 
-    if (window.eats11humid) {
-        window.eats11humid.animate(data.hum / 100);
-    }
+    if (window.ove13p1) window.ove13p1.animate(hNorm);
+    if (window.eats11humid) window.eats11humid.animate(hNorm);
+
+    /* ============================
+       SOUND (normalize 0–5)
+    ============================ */
+	//Soundbar
+    window.liveSound = Number(data.sound);
+    let sNorm = Math.min(window.liveSound / 0.1, 1);
+
+    if (window.ove07p1) window.ove07p1.animate(sNorm);
+
+    /* ============================
+       VIBRATION (normalize 0–5)
+    ============================ */
+
+	//vibrationbar
+    window.liveVib = Number(data.vibration);
+    let vNorm = Math.min(window.liveVib / 1, 1);
+
+    if (window.ove08p1) window.ove08p1.animate(vNorm);
+
+    /* ============================
+       EATS11 TEMP
+    ============================ */
     if (window.eats11temp) {
-        window.eats11temp.animate(data.temp / 40);  
+        window.eats11temp.animate(window.liveTemp / 40);
     }
 
-    if (window.ove07p1) {
-        let soundNorm = Math.min(data.sound / 5.0, 1); 
-        window.ove07p1.animate(soundNorm);
-    }
+    /* ============================
+       LIVE TEXT VALUES (BOTTOM)
+    ============================ */
+    setText("temp_live", window.liveTemp.toFixed(1) + " °C");
+    setText("hum_live", window.liveHum.toFixed(1) + " %");
+    setText("current_live", data.current.toFixed(2) + " A");
+    setText("mag_live", data.mag.toFixed(3));
+    setText("vibration_live", window.liveVib.toFixed(3));
+    setText("sound_live", window.liveSound.toFixed(3));
 
-    if (window.ove08p1) {
-        let vibNorm = Math.min(data.vibration / 5.0, 1); 
-        window.ove08p1.animate(vibNorm);
-    }
-
+    /* ============================
+       CONNECTION STATUS
+    ============================ */
     document.getElementById("conn_num").innerText = 1;
 
-    if (data.temp >= 145 && data.temp <= 155) {
+    /* ============================
+       STABLE CHECK (for motor)
+    ============================ */
+    if (window.liveTemp >= 20 && window.liveTemp <= 40) {
         document.getElementById("stable_num").innerText = 1;
-    } else if (data.temp > 155) {
-        document.getElementById("stable_num").innerText = 0;
-    } else if (data.temp < 145) {
+    } else {
         document.getElementById("stable_num").innerText = 0;
     }
-
-    setText("temp_live", data.temp.toFixed(1) + " °C");
-    setText("hum_live", data.hum.toFixed(1) + " %");
-    setText("current_live", data.current.toFixed(2) + " A");
-    setText("mag_live", data.mag.toFixed(2));
-    setText("vibration_live", data.vibration.toFixed(3));
-    setText("sound_live", data.sound.toFixed(3));
 }
 
+/* Utility for updating text */
 function setText(id, text) {
     let el = document.getElementById(id);
     if (el) el.innerText = text;
 }
 </script>
-<div id="temp_live" style="color:white; font-size:18px;"></div>
-<div id="hum_live" style="color:white; font-size:18px;"></div>
-<div id="current_live" style="color:white; font-size:18px;"></div>
-<div id="mag_live" style="color:white; font-size:18px;"></div>
-<div id="vibration_live" style="color:white; font-size:18px;"></div>
-<div id="sound_live" style="color:white; font-size:18px;"></div>
+
+<!-- DEBUG LIVE VALUES -->
+<!-- <div id="temp_live" style="color:white;font-size:18px;"></div>
+<div id="hum_live" style="color:white;font-size:18px;"></div>
+<div id="current_live" style="color:white;font-size:18px;"></div>
+<div id="mag_live" style="color:white;font-size:18px;"></div>
+<div id="vibration_live" style="color:white;font-size:18px;"></div>
+<div id="sound_live" style="color:white;font-size:18px;"></div> -->
 
 </body>
-
 </html>
