@@ -80,7 +80,11 @@ float readSoundRMS() {
 
 // ================== SETUP ==================
 void setup() {
+
+
   Serial.begin(115200);
+  Serial.println("temp,hum,current,mag,vibration,sound");
+
   delay(300);
 
   Wire.begin(I2C_SDA, I2C_SCL);
@@ -162,17 +166,41 @@ void loop() {
   float my = mpu.magY();
   float mz = mpu.magZ();
 
-  float vibrationIntensity = sqrt(ax * ax + ay * ay + az * az );
+  float vibrationIntensity = sqrt(ax * ax + ay * ay + az * az ) *10;
 
   float magnetometer = sqrt(mx *mx + my * my + mz * mz );
 
   // --- INMP441 Mic RMS ---
-  float rms = readSoundRMS();
+  float rms = readSoundRMS() *100;
   float dB = 20.0 * log10(rms);
 
   // --- Serial Output ---
-  Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Mag=%.3f,Vib=%.3f, Sound=%.3f\n",
-                tempDHT, hum, currentA, magnetometer,vibrationIntensity, rms);
+  // Serial.printf("T(DHT)=%.1f°C, H=%.1f%%, I=%.2fA, Mag=%.3f,Vib=%.3f, Sound=%.3f\n",
+  //               tempDHT, hum, currentA, magnetometer,vibrationIntensity, rms);
+
+Serial.print("{");
+Serial.print("\"temp\":"); Serial.print(tempDHT);
+Serial.print(",\"hum\":"); Serial.print(hum);
+Serial.print(",\"current\":"); Serial.print(currentA);
+Serial.print(",\"mag\":"); Serial.print(magnetometer);
+Serial.print(",\"vibration\":"); Serial.print(vibrationIntensity);
+Serial.print(",\"sound\":"); Serial.print(rms);
+Serial.println("}");
+
+// CSV format: temp,hum,current,mag,vibration,sound
+// Serial.print(tempDHT, 2);
+// Serial.print(",");
+// Serial.print(hum, 2);
+// Serial.print(",");
+// Serial.print(currentA, 2);
+// Serial.print(",");
+// Serial.print(magnetometer, 3);
+// Serial.print(",");
+// Serial.print(vibrationIntensity, 3);
+// Serial.print(",");
+// Serial.println(rms, 3);
+
+
 
   // --- OLED Display Update ---
   oled.clear();
