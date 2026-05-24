@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Predictive Maintenance Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar" aria-label="Dashboard summary">
+        <div>
+          <p class="eyebrow">Live Monitor</p>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="status-strip">
+          <button class="save-csv" id="saveCsvBtn" type="button">Save CSV</button>
+          <button class="theme-toggle" id="themeToggle" type="button">Dark Theme</button>
+          <div class="status-pill" id="connectionStatus">
+            <span class="dot"></span>
+            <span>Simulation running</span>
+          </div>
+          <div class="clock" id="clock">--:--:--</div>
+        </div>
+      </section>
+
+      <section class="alert-band" id="alertBand" aria-live="polite">
+        <div>
+          <p class="alert-label">ML prediction</p>
+          <h2 id="predictionTitle">Healthy operation</h2>
+          <p id="predictionDetail">The model currently sees normal vibration, sound, current, motor temperature, ambient temperature, and humidity patterns.</p>
+        </div>
+        <div class="risk-meter" aria-label="Failure risk">
+          <svg viewBox="0 0 120 120" role="img">
+            <circle class="meter-bg" cx="60" cy="60" r="48"></circle>
+            <circle class="meter-value" id="riskRing" cx="60" cy="60" r="48"></circle>
+          </svg>
+          <div>
+            <strong id="riskScore">12%</strong>
+            <span>risk</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="fault-panel panel" aria-label="Fault diagnosis">
+        <div class="fault-primary">
+          <p class="eyebrow">Fault diagnosis</p>
+          <h2 id="faultType">No fault detected</h2>
+        </div>
+        <div class="fault-meta">
+          <div>
+            <span>Confidence</span>
+            <strong id="faultConfidence">0%</strong>
+          </div>
+          <div>
+            <span>Future risk</span>
+            <strong id="futureRisk">None</strong>
+          </div>
+        </div>
+        <div class="fault-indicators" id="faultIndicators">
+          <span class="indicator normal">Vibration normal</span>
+          <span class="indicator normal">Sound normal</span>
+          <span class="indicator normal">Current normal</span>
+          <span class="indicator normal">Motor temperature normal</span>
+          <span class="indicator normal">Ambient temperature normal</span>
+          <span class="indicator normal">Humidity normal</span>
+        </div>
+        <div class="recommendation">
+          <span>Recommended action</span>
+          <p id="recommendedAction">Continue monitoring.</p>
+        </div>
+      </section>
+
+      <section class="metrics-grid" aria-label="Sensor readings">
+        <article class="metric-card" data-sensor="vibration" role="button" tabindex="0" aria-label="Open enlarged vibration trend">
+          <div class="metric-icon">V</div>
+          <div>
+            <p>Vibration</p>
+            <strong><span id="vibrationValue">0.00</span> g</strong>
+          </div>
+          <canvas id="vibrationChart" width="360" height="140"></canvas>
+        </article>
+        <article class="metric-card" data-sensor="sound" role="button" tabindex="0" aria-label="Open enlarged sound trend">
+          <div class="metric-icon">S</div>
+          <div>
+            <p>Sound</p>
+            <strong><span id="soundValue">0</span> dB</strong>
+          </div>
+          <canvas id="soundChart" width="360" height="140"></canvas>
+        </article>
+        <article class="metric-card" data-sensor="current" role="button" tabindex="0" aria-label="Open enlarged current trend">
+          <div class="metric-icon">A</div>
+          <div>
+            <p>Current</p>
+            <strong><span id="currentValue">0.00</span> A</strong>
+          </div>
+          <canvas id="currentChart" width="360" height="140"></canvas>
+        </article>
+        <article class="metric-card" data-sensor="motorTemperature" role="button" tabindex="0" aria-label="Open enlarged motor temperature trend">
+          <div class="metric-icon">M</div>
+          <div>
+            <p>Motor Temperature</p>
+            <strong><span id="motorTemperatureValue">0.0</span> C</strong>
+          </div>
+          <canvas id="motorTemperatureChart" width="360" height="140"></canvas>
+        </article>
+        <article class="metric-card" data-sensor="ambientTemperature" role="button" tabindex="0" aria-label="Open enlarged ambient temperature trend">
+          <div class="metric-icon">T</div>
+          <div>
+            <p>Ambient Temperature</p>
+            <strong><span id="ambientTemperatureValue">0.0</span> C</strong>
+          </div>
+          <canvas id="ambientTemperatureChart" width="360" height="140"></canvas>
+        </article>
+        <article class="metric-card" data-sensor="humidity" role="button" tabindex="0" aria-label="Open enlarged humidity trend">
+          <div class="metric-icon">H</div>
+          <div>
+            <p>Humidity</p>
+            <strong><span id="humidityValue">0</span>%</strong>
+          </div>
+          <canvas id="humidityChart" width="360" height="140"></canvas>
+        </article>
+      </section>
+
+      <section class="workbench" aria-label="Data controls and alerts">
+        <div class="panel controls-panel">
+          <div class="panel-heading">
+            <h2>Data Source</h2>
+            <span id="sampleCount">0 samples</span>
+          </div>
+
+          <label class="field serial-field">
+            <span>Serial baud rate</span>
+            <input id="baudRateInput" type="number" value="115200" min="300" step="300">
+          </label>
+
+          <label class="field">
+            <span>Endpoint</span>
+            <input id="endpointInput" type="url" value="ws://192.168.4.1/ws" spellcheck="false">
+          </label>
+
+          <div class="control-row">
+            <button class="primary" id="connectBtn" type="button">Connect Serial</button>
+            <button id="pauseBtn" type="button">Pause</button>
+            <button id="clearBtn" type="button">Clear</button>
+          </div>
+
+        </div>
+
+        <div class="panel">
+          <div class="panel-heading">
+            <h2>Alert Timeline</h2>
+            <span id="latestTimestamp">Waiting for data</span>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </section>
+
+      <div class="trend-modal" id="trendModal" hidden>
+        <div class="trend-dialog" role="dialog" aria-modal="true" aria-labelledby="trendTitle">
+          <div class="trend-header">
+            <div>
+              <p class="eyebrow">Trend analysis</p>
+              <h2 id="trendTitle">Sensor Trend</h2>
+            </div>
+            <button class="close-modal" id="closeTrendModal" type="button" aria-label="Close enlarged trend">Close</button>
+          </div>
+          <canvas id="trendChart" width="1100" height="420"></canvas>
+          <div class="trend-stats">
+            <div><span>Latest</span><strong id="trendLatest">--</strong></div>
+            <div><span>Minimum</span><strong id="trendMin">--</strong></div>
+            <div><span>Maximum</span><strong id="trendMax">--</strong></div>
+            <div><span>Average</span><strong id="trendAvg">--</strong></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
